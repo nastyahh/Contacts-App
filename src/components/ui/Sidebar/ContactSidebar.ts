@@ -4,6 +4,8 @@ import Storage from '../../../utils/Storage';
 import ArrowIcon from '../../../assets/dropdown-arrow.svg';
 import type { Contact, Group } from "../../../types";
 import  { Dropdown } from "../Dropdown/Dropdown";
+import { Toaster } from "../Toaster/Toaster";
+
 
 export function renderContactSidebar(): string {
   return `
@@ -46,6 +48,8 @@ export function initContactSidebar() {
   const closeSidebar = document.getElementById('closeContactSidebar') as HTMLElement;
   const contactForm = document.getElementById('contactForm') as HTMLFormElement;
   const groupDropdown = document.getElementById('groupDropdown') as HTMLElement;
+
+  const toaster = Toaster.getInstance();   
 
   let dropdown: Dropdown | undefined;
   if (groupDropdown) {
@@ -120,7 +124,7 @@ export function initContactSidebar() {
       const groupName = (document.getElementById('group') as HTMLInputElement).value.trim();
     
       if (storage.findContactByPhone(phone)) {
-        alert("Контакт с таким номером уже существует"); 
+        toaster.error("Контакт с таким номером уже существует"); 
         return;
       }
     
@@ -137,6 +141,8 @@ export function initContactSidebar() {
 
       contactForm.reset();
       closeSidebarFunc();
+
+       toaster.success("Контакт успешно создан")
   
       console.log("Контакт создан:", newContact);
     });

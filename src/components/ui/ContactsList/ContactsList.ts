@@ -2,8 +2,10 @@ import type { Contact, Group } from '../../../types';
 import Storage from "../../../utils/Storage";
 import ArrowIcon from "../../../assets/dropdown-arrow.svg";
 import IMask from 'imask';
+import { Toaster } from '../Toaster/Toaster';
 
 const storage = Storage.getInstance();
+const toaster = Toaster.getInstance();
 
 function renderContactItem(contact: Contact): string {
   return `
@@ -142,6 +144,7 @@ export function initContactsList() {
         </svg></button>
       `;
     
+      toaster.success('Контакт успешно изменен');
       return;
     }
     
@@ -154,7 +157,7 @@ export function initContactsList() {
       const contactEl = container.querySelector(`.contact-item[data-contact-id="${contactId}"]`);
       contactEl?.remove();
 
-    
+      toaster.success('Контакт успешно удален');
       return;
     }
     

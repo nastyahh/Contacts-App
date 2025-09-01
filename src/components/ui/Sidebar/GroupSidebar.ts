@@ -1,8 +1,10 @@
 import Storage from '../../../utils/Storage';
 import CrossIcon from '../../../assets/cross-icon.svg';
 import type { Group } from '../../../types';
+import { Toaster } from '../Toaster/Toaster';
 
 const storage = Storage.getInstance();
+const toaster = Toaster.getInstance()
 
 const deleteIcon = `
 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -134,7 +136,7 @@ export function initGroupSidebar(): void {
     }
   
     if (storage.findGroupByName(groupName)) {
-      showError('Группа с таким названием уже существует');
+      toaster.error('Группа с таким названием уже существует');
       return;
     }
   
@@ -143,6 +145,8 @@ export function initGroupSidebar(): void {
     groups = storage.getGroups();
     updateGroupsList();
     resetAddGroupForm();
+
+    toaster.success("Группа успешно создана")
   };
 
 
@@ -163,7 +167,7 @@ export function initGroupSidebar(): void {
     groupElContacts?.remove();
   
     groups = storage.getGroups();
-    alert('Группа и все контакты были успешно удалены');
+    toaster.success('Группа и все контакты были успешно удалены');
   };
   
 
