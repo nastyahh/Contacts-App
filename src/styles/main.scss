@@ -1,0 +1,58 @@
+@use "./reset";
+@use "./variables";
+@use "./base/fonts";
+
+@use "./components/header";
+@use "./components/sidebar";
+
+html,
+body,
+#app,
+main {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-primary);
+}
+
+main {
+  padding: 24px 0;
+  background: #f6f7f9;
+}
+
+.container {
+  max-width: 1192px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.btn--blue {
+  color: #fff;
+  background: var(--color-blue);
+  border-radius: 6px;
+  transition: background 0.3s ease;
+  &:hover {
+    background: var(--color-blue-hover);
+  }
+}
+
+.btn--red {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--color-red);
+  border-radius: 6px;
+  color: #fff;
+  transition: background 0.3s ease;
+  &:hover {
+    background: var(--color-red-hover);
+  }
+}
+
+.addContact {
+  width: 100%;
+}

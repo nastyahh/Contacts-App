@@ -1,0 +1,266 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 312px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease-in-out;
+  z-index: 1000;
+
+  &.open {
+    right: 0;
+  }
+
+  &__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+  }
+
+  &.open &__overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px;
+    border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
+
+    h2 {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 120%;
+    }
+  }
+
+  &__close {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 130%;
+    font-feature-settings: "liga" off, "clig" off;
+    background: rgba($color: #000000, $alpha: 0.05);
+    border: 1px solid transparent;
+    transition: border-color 0.2s ease;
+
+    &.error {
+      border: 1px solid #ea3d2f;
+    }
+
+    &::placeholder {
+      color: rgba($color: #000000, $alpha: 0.5);
+    }
+
+    &:focus {
+      border: 1px solid var(--color-blue);
+      box-shadow: 0 0 5px 0 rgba(0, 91, 254, 0.4);
+    }
+  }
+
+  .form-actions {
+    margin-top: auto;
+    margin-left: auto;
+    .btn--blue{
+      padding: 10px 18px;
+    }
+  }
+}
+
+.error-message {
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 120%;
+  color: #ea3d2f;
+}
+
+.dropdown-container {
+  position: relative;
+  cursor: pointer;
+
+  input {
+    margin: 0;
+  }
+
+  .dropdown-arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    transition: transform 0.2s ease;
+  }
+
+  &.dropdown--open {
+    .dropdown-arrow {
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    .dropdown-items {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+  }
+
+  .dropdown-items {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    border-radius: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s ease;
+    z-index: 10;
+
+    &::-webkit-scrollbar{
+      width: 0;
+    }
+
+    .dropdown-item {
+      font-size: 14px;
+      line-height: 130%;
+      background: #F2F2F2;
+      padding: 11px 12px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #E4E3E3;
+      }
+    }
+  }
+}
+
+.groups-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+.groups-list {
+  max-height: 100%;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+.group-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 12px;
+  margin-bottom: 16px;
+
+  &__name {
+    flex: 1;
+    padding: 10px 12px;
+    background: rgba($color: #000000, $alpha: 0.05);
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 130%;
+
+    &.error{
+      border: 1px solid #EA3D2F;
+    }
+  }
+
+  &__delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    border: 1px solid rgba($color: #000000, $alpha: 0.1);
+    transition: all 0.2s ease;
+
+    svg g path {
+      transition: all 0.3s ease;
+    }
+
+    &:hover {
+      background: #ea3d2f;
+
+      svg g path {
+        fill: #fff;
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.add-group-section {
+  margin-bottom: 24px;
+}
+
+.groups-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 16px;
+
+  button {
+    padding: 10px 20px;
+    font-size: 14px;
+    line-height: 130%;
+    font-weight: 700;
+
+    &.btn--text {
+      color: var(--color-blue);
+    }
+  }
+}

@@ -1,24 +1,19 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import "./styles/main.scss";
+import PlusIcon from "./assets/plus-icon.svg?url";
+import { renderHeader } from "./components/ui/Header/Header.ts";
+import { renderContactSidebar, initContactSidebar } from "./components/ui/Sidebar/ContactSidebar.ts";
+import { renderGroupSidebar, initGroupSidebar } from "./components/ui/Sidebar/GroupSidebar.ts";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+   ${renderHeader()}
+   <main>
+   <div class="container">
+   <button class="addContact btn--red">Добавить контакт <img src="${PlusIcon}" alt="Plus icon"/></button>
+   </div>
+   </main>
+   ${renderContactSidebar()}
+   ${renderGroupSidebar()}
+`;
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+initContactSidebar();
+initGroupSidebar();

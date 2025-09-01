@@ -1,0 +1,32 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: #fff;
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    span {
+      color: var(--color-blue);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 120%;
+    }
+  }
+
+  &__addContact.btn--red {
+    display: none;
+  }
+
+  &__groupsBtn {
+    padding: 10px 14px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 130%;
+  }
+}
