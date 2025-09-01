@@ -149,16 +149,23 @@ export function initGroupSidebar(): void {
   const deleteGroup = (groupId: string) => {
     const group = groups.find(g => g.id === groupId);
     if (!group) return;
-
+  
     const confirmed = confirm(`Вы уверены, что хотите удалить группу "${group.name}"? Это приведет к удалению всех контактов, находящихся в этой группе.`);
     if (!confirmed) return;
-
+  
     storage.deleteContactsByGroup(groupId);
     storage.deleteGroup(groupId);
+    
+    const groupElSidebar = document.querySelector(`.group-item[data-group-id="${groupId}"]`);
+    groupElSidebar?.remove();
+  
+    const groupElContacts = document.querySelector(`.group-block[data-group-id="${groupId}"]`);
+    groupElContacts?.remove();
+  
     groups = storage.getGroups();
-    updateGroupsList();
     alert('Группа и все контакты были успешно удалены');
   };
+  
 
   headerGroupsBtn?.addEventListener('click', openSidebar);
   closeSidebarBtn?.addEventListener('click', closeSidebarFunc);

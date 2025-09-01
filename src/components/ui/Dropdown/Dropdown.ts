@@ -54,22 +54,23 @@ export class Dropdown {
 
   private renderItems() {
     this.element.querySelectorAll('.dropdown-item').forEach(item => item.remove());
-
+  
     let itemsContainer = this.element.querySelector('.dropdown-items') as HTMLElement | null;
     if (!itemsContainer) {
       itemsContainer = document.createElement('div');
       itemsContainer.className = 'dropdown-items';
       this.element.appendChild(itemsContainer);
     }
-
+  
     this.items.forEach(item => {
       const itemElement = document.createElement('div');
       itemElement.className = 'dropdown-item';
       itemElement.textContent = item.name;
-      itemElement.addEventListener('click', () => {
+      itemElement.addEventListener('click', (e) => {
+        e.stopPropagation(); 
         this.input.value = item.name;
         this.emit('change', item);
-        this.close();
+        this.close(); 
       });
       itemsContainer!.appendChild(itemElement);
     });

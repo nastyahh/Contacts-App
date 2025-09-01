@@ -38,11 +38,11 @@ class Storage {
     this.saveContacts(contacts);
   }
 
-  public updateContact(contact: Contact) {
+  public updateContact(id: string, data: Partial<Contact>) {
     const contacts = this.getContacts();
-    const index = contacts.findIndex(c => c.id === contact.id);
-    if (index !== -1) {
-      contacts[index] = contact;
+    const idx = contacts.findIndex(c => c.id === id);
+    if (idx !== -1) {
+      contacts[idx] = { ...contacts[idx], ...data };
       this.saveContacts(contacts);
     }
   }

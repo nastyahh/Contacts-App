@@ -134,7 +134,7 @@ export function initContactSidebar() {
       };
     
       storage.addContact(newContact);
-    
+
       contactForm.reset();
       closeSidebarFunc();
   

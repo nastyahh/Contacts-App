@@ -4,11 +4,10 @@
 
 @use "./components/header";
 @use "./components/sidebar";
+@use "./components/contacts-list";
 
 html,
-body,
-#app,
-main {
+body {
   height: 100%;
 }
 
@@ -16,8 +15,14 @@ body {
   font-family: var(--font-primary);
 }
 
+#app{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 main {
-  padding: 24px 0;
+  flex: 1;
   background: #f6f7f9;
 }
 
@@ -26,6 +31,7 @@ main {
   width: 100%;
   margin: 0 auto;
   padding: 0 16px;
+  flex: 1;
 }
 
 .btn--blue {
@@ -55,4 +61,5 @@ main {
 
 .addContact {
   width: 100%;
+  margin: 24px 0 32px;
 }
