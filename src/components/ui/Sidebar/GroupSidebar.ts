@@ -1,10 +1,12 @@
-import Storage from '../../../utils/Storage';
-import CrossIcon from '../../../assets/cross-icon.svg';
-import type { Group } from '../../../types';
-import { Toaster } from '../Toaster/Toaster';
+import Storage from "../../../utils/Storage";
+import CrossIcon from "../../../assets/cross-icon.svg";
+import type { Group } from "../../../types";
+import { Toaster } from "../Toaster/Toaster";
+import { Popup } from "../Popup/Popup";
 
 const storage = Storage.getInstance();
-const toaster = Toaster.getInstance()
+const toaster = Toaster.getInstance();
+const popup = Popup.getInstance();
 
 const deleteIcon = `
 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
@@ -38,13 +40,13 @@ export function renderGroupSidebar(): string {
       <div class="sidebar__content">
         <div class="sidebar__header">
           <h2>Группы контактов</h2>
-          <button class="sidebar__close" id="closeGroupSidebar">
+          <button class="sidebar__close btn--close" id="closeGroupSidebar">
             <img src="${CrossIcon}" alt="Close"/>
           </button>
         </div>
         <div class="groups-content">
           <div class="groups-list" id="groupsList">
-            ${groups.map(renderGroupItem).join('')}
+            ${groups.map(renderGroupItem).join("")}
           </div>
           
           <div class="add-group-section" id="addGroupSection" style="display:none;">
@@ -67,61 +69,74 @@ export function renderGroupSidebar(): string {
 export function initGroupSidebar(): void {
   let groups = storage.getGroups();
 
-  const sidebar = document.getElementById('groupSidebar') as HTMLElement;
-  const sidebarOverlay = document.getElementById('groupSidebarOverlay') as HTMLElement;
-  const closeSidebarBtn = document.getElementById('closeGroupSidebar') as HTMLElement;
-  const groupsList = document.getElementById('groupsList') as HTMLElement;
-  const addGroupBtn = document.getElementById('addGroupBtn') as HTMLElement;
-  const saveGroupBtn = document.getElementById('saveGroupBtn') as HTMLElement;
-  const addGroupSection = document.getElementById('addGroupSection') as HTMLElement;
-  const newGroupNameInput = document.getElementById('newGroupName') as HTMLInputElement;
-  const cancelAddGroupBtn = document.getElementById('cancelAddGroup') as HTMLElement;
-  const headerGroupsBtn = document.querySelector('.header__groupsBtn') as HTMLElement;
+  const sidebar = document.getElementById("groupSidebar") as HTMLElement;
+  const sidebarOverlay = document.getElementById(
+    "groupSidebarOverlay"
+  ) as HTMLElement;
+  const closeSidebarBtn = document.getElementById(
+    "closeGroupSidebar"
+  ) as HTMLElement;
+  const groupsList = document.getElementById("groupsList") as HTMLElement;
+  const addGroupBtn = document.getElementById("addGroupBtn") as HTMLElement;
+  const saveGroupBtn = document.getElementById("saveGroupBtn") as HTMLElement;
+  const addGroupSection = document.getElementById(
+    "addGroupSection"
+  ) as HTMLElement;
+  const newGroupNameInput = document.getElementById(
+    "newGroupName"
+  ) as HTMLInputElement;
+  const cancelAddGroupBtn = document.getElementById(
+    "cancelAddGroup"
+  ) as HTMLElement;
+  const headerGroupsBtn = document.querySelector(
+    ".header__groupsBtn"
+  ) as HTMLElement;
 
   const openSidebar = () => {
-    sidebar?.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    sidebar?.classList.add("open");
+    document.body.style.overflow = "hidden";
     groups = storage.getGroups();
     updateGroupsList();
   };
 
   const closeSidebarFunc = () => {
-    sidebar?.classList.remove('open');
-    document.body.style.overflow = '';
+    sidebar?.classList.remove("open");
+    document.body.style.overflow = "";
     resetAddGroupForm();
   };
 
   const updateGroupsList = () => {
     if (groupsList) {
-      groupsList.innerHTML = groups.map(renderGroupItem).join('');
+      groupsList.innerHTML = groups.map(renderGroupItem).join("");
     }
   };
 
   const resetAddGroupForm = () => {
-    addGroupSection!.style.display = 'none';
-    addGroupBtn!.style.display = 'block';
-    newGroupNameInput!.value = '';
+    addGroupSection!.style.display = "none";
+    addGroupBtn!.style.display = "block";
+    newGroupNameInput!.value = "";
   };
 
   const showAddGroupForm = () => {
-    addGroupSection!.style.display = 'block';
-    addGroupBtn!.style.display = 'none';
+    addGroupSection!.style.display = "block";
+    addGroupBtn!.style.display = "none";
     newGroupNameInput!.focus();
   };
 
   const clearErrors = () => {
-    const errorMsg = newGroupNameInput?.parentElement?.querySelector('.error-message');
+    const errorMsg =
+      newGroupNameInput?.parentElement?.querySelector(".error-message");
     if (errorMsg) errorMsg.remove();
-    newGroupNameInput?.classList.remove('error');
+    newGroupNameInput?.classList.remove("error");
   };
-  
+
   const showError = (message: string) => {
     clearErrors();
     if (!newGroupNameInput) return;
-  
-    newGroupNameInput.classList.add('error');
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message';
+
+    newGroupNameInput.classList.add("error");
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "error-message";
     errorDiv.textContent = message;
     newGroupNameInput.parentElement?.appendChild(errorDiv);
   };
@@ -129,58 +144,67 @@ export function initGroupSidebar(): void {
   const saveGroup = () => {
     clearErrors();
     const groupName = newGroupNameInput?.value.trim();
-  
+
     if (!groupName) {
-      showError('Введите название группы');
+      showError("Введите название группы");
       return;
     }
-  
+
     if (storage.findGroupByName(groupName)) {
-      toaster.error('Группа с таким названием уже существует');
+      toaster.error("Группа с таким названием уже существует");
       return;
     }
-  
+
     const groupData: Group = { id: Date.now().toString(), name: groupName };
     storage.addGroup(groupData);
     groups = storage.getGroups();
     updateGroupsList();
     resetAddGroupForm();
 
-    toaster.success("Группа успешно создана")
+    toaster.success("Группа успешно создана");
   };
-
 
   const deleteGroup = (groupId: string) => {
-    const group = groups.find(g => g.id === groupId);
+    const group = groups.find((g) => g.id === groupId);
     if (!group) return;
-  
-    const confirmed = confirm(`Вы уверены, что хотите удалить группу "${group.name}"? Это приведет к удалению всех контактов, находящихся в этой группе.`);
-    if (!confirmed) return;
-  
-    storage.deleteContactsByGroup(groupId);
-    storage.deleteGroup(groupId);
-    
-    const groupElSidebar = document.querySelector(`.group-item[data-group-id="${groupId}"]`);
-    groupElSidebar?.remove();
-  
-    const groupElContacts = document.querySelector(`.group-block[data-group-id="${groupId}"]`);
-    groupElContacts?.remove();
-  
-    groups = storage.getGroups();
-    toaster.success('Группа и все контакты были успешно удалены');
+
+    popup.show({
+      title: "Удалить группу?",
+      message:
+        "Удаление группы повлечет за собой удаление контактов связанных с этой группой",
+      confirmText: "Да, удалить",
+      cancelText: "Отмена",
+      onConfirm: () => {
+        storage.deleteContactsByGroup(groupId);
+        storage.deleteGroup(groupId);
+
+        const groupElSidebar = document.querySelector(
+          `.group-item[data-group-id="${groupId}"]`
+        );
+        groupElSidebar?.remove();
+
+        const groupElContacts = document.querySelector(
+          `.group-block[data-group-id="${groupId}"]`
+        );
+        groupElContacts?.remove();
+
+        groups = storage.getGroups();
+
+        toaster.success("Группа и все контакты были успешно удалены");
+      },
+    });
   };
-  
 
-  headerGroupsBtn?.addEventListener('click', openSidebar);
-  closeSidebarBtn?.addEventListener('click', closeSidebarFunc);
-  sidebarOverlay?.addEventListener('click', closeSidebarFunc);
-  addGroupBtn?.addEventListener('click', showAddGroupForm);
-  cancelAddGroupBtn?.addEventListener('click', resetAddGroupForm);
-  saveGroupBtn?.addEventListener('click', saveGroup);
+  headerGroupsBtn?.addEventListener("click", openSidebar);
+  closeSidebarBtn?.addEventListener("click", closeSidebarFunc);
+  sidebarOverlay?.addEventListener("click", closeSidebarFunc);
+  addGroupBtn?.addEventListener("click", showAddGroupForm);
+  cancelAddGroupBtn?.addEventListener("click", resetAddGroupForm);
+  saveGroupBtn?.addEventListener("click", saveGroup);
 
-  groupsList?.addEventListener('click', e => {
-    const target = (e.target as HTMLElement).closest('.group-item__delete');
-    const groupId = target?.getAttribute('data-group-id');
+  groupsList?.addEventListener("click", (e) => {
+    const target = (e.target as HTMLElement).closest(".group-item__delete");
+    const groupId = target?.getAttribute("data-group-id");
     if (groupId) deleteGroup(groupId);
   });
 }

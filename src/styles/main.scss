@@ -6,6 +6,7 @@
 @use "./components/sidebar";
 @use "./components/contacts-list";
 @use "./components/toaster";
+@use "./components/popup";
 
 html,
 body {
@@ -16,7 +17,7 @@ body {
   font-family: var(--font-primary);
 }
 
-#app{
+#app {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -57,6 +58,20 @@ main {
   transition: background 0.3s ease;
   &:hover {
     background: var(--color-red-hover);
+  }
+}
+
+.btn--close {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
   }
 }
 

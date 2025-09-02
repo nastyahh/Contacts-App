@@ -18,3 +18,12 @@ export interface ToastOptions {
   message: string;
   duration?: number;
 }
+
+export interface PopupOptions {
+  title: string;
+  message: string;
+  confirmText?: string;
+  cancelText?: string;
+  onConfirm: () => void;
+  onCancel?: () => void;
+}
