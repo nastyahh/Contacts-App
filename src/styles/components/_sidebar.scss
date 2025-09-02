@@ -1,16 +1,17 @@
 .sidebar {
   position: fixed;
   top: 0;
-  right: -400px;
+  right: 0;
   width: 312px;
   height: 100vh;
   background: #fff;
   box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s ease-in-out;
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
   z-index: 1000;
 
   &.open {
-    right: 0;
+    transform: translateX(0);
   }
 
   &__overlay {
@@ -23,12 +24,12 @@
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease-in-out;
-    z-index: -1;
-  }
+    z-index: 900;
 
-  &.open &__overlay {
-    opacity: 1;
-    visibility: visible;
+    &.open {
+      opacity: 1;
+      visibility: visible;
+    }
   }
 
   &__content {
@@ -97,7 +98,7 @@
   .form-actions {
     margin-top: auto;
     margin-left: auto;
-    .btn--blue{
+    .btn--blue {
       padding: 10px 18px;
     }
   }
@@ -153,20 +154,20 @@
     transition: all 0.2s ease;
     z-index: 10;
 
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       width: 0;
     }
 
     .dropdown-item {
       font-size: 14px;
       line-height: 130%;
-      background: #F2F2F2;
+      background: #f2f2f2;
       padding: 11px 12px;
       cursor: pointer;
       transition: background 0.2s ease;
 
       &:hover {
-        background: #E4E3E3;
+        background: #e4e3e3;
       }
     }
   }
@@ -210,8 +211,8 @@
     font-size: 14px;
     line-height: 130%;
 
-    &.error{
-      border: 1px solid #EA3D2F;
+    &.error {
+      border: 1px solid #ea3d2f;
     }
   }
 
@@ -261,6 +262,18 @@
 
     &.btn--text {
       color: var(--color-blue);
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .sidebar {
+    left: 0;
+    right: unset;
+    transform: translateX(-100%);
+
+    &.open {
+      transform: translateX(0);
     }
   }
 }

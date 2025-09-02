@@ -1,10 +1,14 @@
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
   background: #fff;
   box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+  z-index: 10;
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+  }
 
   &__left {
     display: flex;
@@ -18,15 +22,29 @@
     }
   }
 
-  &__addContact.btn--red {
-    display: none;
-  }
-
-  &__groupsBtn {
+  &__right button {
     padding: 10px 14px;
-    color: #fff;
     font-size: 14px;
     font-weight: 700;
     line-height: 130%;
+  }
+
+  &__addContact.btn--red {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .header {
+    &__right {
+      display: flex;
+      gap: 16px;
+    }
+
+    &__addContact.btn--red {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
   }
 }

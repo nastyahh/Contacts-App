@@ -35,8 +35,8 @@ function renderGroupItem(group: Group): string {
 export function renderGroupSidebar(): string {
   const groups = storage.getGroups();
   return `
+  <div class="sidebar__overlay" id="groupSidebarOverlay"></div>
     <div class="sidebar group-sidebar" id="groupSidebar">
-      <div class="sidebar__overlay" id="groupSidebarOverlay"></div>
       <div class="sidebar__content">
         <div class="sidebar__header">
           <h2>Группы контактов</h2>
@@ -94,6 +94,8 @@ export function initGroupSidebar(): void {
 
   const openSidebar = () => {
     sidebar?.classList.add("open");
+    sidebarOverlay?.classList.add("open");
+
     document.body.style.overflow = "hidden";
     groups = storage.getGroups();
     updateGroupsList();
@@ -101,6 +103,8 @@ export function initGroupSidebar(): void {
 
   const closeSidebarFunc = () => {
     sidebar?.classList.remove("open");
+    sidebarOverlay?.classList.remove("open");
+
     document.body.style.overflow = "";
     resetAddGroupForm();
   };
@@ -169,11 +173,9 @@ export function initGroupSidebar(): void {
     if (!group) return;
 
     popup.show({
-      title: "Удалить группу?",
+      title: "Вы уверены, что хотите удалить эту группу?",
       message:
-        "Удаление группы повлечет за собой удаление контактов связанных с этой группой",
-      confirmText: "Да, удалить",
-      cancelText: "Отмена",
+        "Это приведет к удалению всех контактов, находящихся в этой группе.",
       onConfirm: () => {
         storage.deleteContactsByGroup(groupId);
         storage.deleteGroup(groupId);

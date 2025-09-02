@@ -115,3 +115,24 @@
     font-size: 13px;
   }
 }
+
+@media (min-width: 768px) {
+  .contacts-list {
+    padding: 56px 0;
+  }
+
+  .contact-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__name {
+      width: auto;
+      margin: 0;
+    }
+
+    &__wrapper {
+      gap: 34px;
+    }
+  }
+}

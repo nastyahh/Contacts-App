@@ -1,5 +1,5 @@
 :root {
-  --toast-error: #EA3D2F;
+  --toast-error: #ea3d2f;
   --toast-warning: #f59e0b;
 }
 
@@ -71,5 +71,16 @@
   to {
     opacity: 0;
     transform: translateY(8px) scale(0.98);
+  }
+}
+
+@media (min-width: 768px) {
+  .toaster {
+    right: 60px;
+    bottom: 60px;
+  }
+
+  .toast {
+    max-width: 380px;
   }
 }
